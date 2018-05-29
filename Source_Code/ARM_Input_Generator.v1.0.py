@@ -577,7 +577,7 @@ def propKa():
         pdbPropka = pdbARMFix[:-3]+'pka'
         pdbPropkaTemp = pdbPropka+'.temp'
 
-        os.system(pdb2pqr+" -v --chain --ff=amber "+str(pdbARM+" "+pdbARMFix))
+        os.system(pdb2pqr+" --chain --ff=amber "+str(pdbARM+" "+pdbARMFix))
 
         print '\n', str('Running PROPKA3.0 analysis for the \x1b[0;33;49m'+str(pdbARM)+'\x1b[0m input file').rjust(100, '.')
         os.system (propkaScript+" "+pdbARMFix+ ">> /dev/null")
@@ -896,8 +896,9 @@ def fpocket():
 #LMPG 29-05-2018
 #This function identifies the pocket which contains the linker AA
 
-        pocketFile = os.system("grep -lr "+str(" "+linker_aa_ID+" ")+pdbARM[:-4]+"_out/pockets/")
-    
+        pocketFile= commands.getoutput("grep -lr "+"\""+chainName+'{:>4}'.format(str(linker_aa_ID))+"\""+" "+pdbARM[:-4]+"_out/pockets/*pdb")
+        pocketFile= pocketFile.split("\n")[0]
+
         with open(pocketFile) as cavityFile:
             listcavity = [counterion_ID, linker_aa_ID]
             for line in cavityFile:
