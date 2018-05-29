@@ -1,0 +1,46 @@
+HEADER
+HEADER This is a pdb format file writen by the programm fpocket.                 
+HEADER It represents the atoms contacted by the voronoi vertices of the pocket.  
+HEADER                                                                           
+HEADER Information about the pocket    10:
+HEADER 0  - Pocket Score                      : 4.3368
+HEADER 1  - Drug Score                        : 0.1744
+HEADER 2  - Number of V. Vertices             :    38
+HEADER 3  - Mean alpha-sphere radius          : 3.7556
+HEADER 4  - Mean alpha-sphere SA              : 0.5684
+HEADER 5  - Mean B-factor                     : 0.3732
+HEADER 6  - Hydrophobicity Score              : 57.8571
+HEADER 7  - Polarity Score                    :     3
+HEADER 8  - Volume Score                      : 5.2857
+HEADER 9  - Real volume (approximation)       : 298.6078
+HEADER 10 - Charge Score                      :     1
+HEADER 11 - Local hydrophobic density Score   : 34.6667
+HEADER 12 - Number of apolar alpha sphere     :    36
+HEADER 13 - Proportion of apolar alpha sphere : 0.9474
+ATOM   1796   CG GLN A 225       4.541 -15.200 -21.731  1.00 84.97           C 0
+ATOM   1770   CA CYS A 222       3.633 -12.690 -19.109  1.00 68.83           C 0
+ATOM   1085  CD1 TYR A 136       1.860 -12.994 -23.923  1.00 69.21           C 0
+ATOM   1766  CE1 PHE A 221       2.808 -17.688 -18.751  1.00 68.91           C 0
+ATOM   1087  CE1 TYR A 136       2.071 -14.288 -24.352  1.00 69.37           C 0
+ATOM   1084   CG TYR A 136       0.583 -12.436 -23.914  1.00 68.42           C 0
+ATOM   1764  CD1 PHE A 221       2.905 -16.686 -17.785  1.00 68.99           C 0
+ATOM   1086  CD2 TYR A 136      -0.490 -13.212 -24.345  1.00 68.82           C 0
+ATOM   1089   CZ TYR A 136       0.992 -15.039 -24.782  1.00 69.81           C 0
+ATOM   1088  CE2 TYR A 136      -0.297 -14.507 -24.782  1.00 69.00           C 0
+ATOM   1090   OH TYR A 136       1.226 -16.317 -25.215  1.00 70.95           O 0
+ATOM   1798  OE1 GLN A 225       4.616 -17.499 -22.369  1.00 85.57           O 0
+ATOM   1058  CD1 ILE A 133      -2.673 -10.918 -19.016  1.00 57.28           C 0
+ATOM   1773   CB CYS A 222       2.574 -11.611 -18.937  1.00 68.19           C 0
+ATOM   1083   CB TYR A 136       0.386 -11.022 -23.507  1.00 66.83           C 0
+ATOM   1052   CA ILE A 133      -2.236  -8.990 -21.036  1.00 55.79           C 0
+ATOM   1774   SG CYS A 222       2.318 -10.665 -20.438  1.00 69.11           S 0
+ATOM   1057  CG2 ILE A 133      -4.539  -9.824 -21.485  1.00 54.70           C 0
+ATOM   1054    O ILE A 133      -1.748  -8.907 -23.347  1.00 56.57           O 0
+ATOM   1097  CG2 VAL A 137      -4.238 -10.688 -25.427  1.00 69.73           C 0
+ATOM   1735    O VAL A 218       2.250 -12.300 -15.912  1.00 56.20           O 0
+ATOM   1733   CA VAL A 218       0.888 -12.792 -14.014  1.00 54.08           C 0
+ATOM   1737  CG1 VAL A 218      -0.904 -11.555 -15.262  1.00 52.31           C 0
+ATOM   1738  CG2 VAL A 218      -1.491 -12.968 -13.284  1.00 51.67           C 0
+ATOM   1769    N CYS A 222       3.950 -13.291 -17.824  1.00 67.33           N 0
+TER
+END

@@ -1,0 +1,31 @@
+REMARK     PDB produced by PutIon
+REMARK
+REMARK     Target residues, IC side
+REMARK                  27
+REMARK                  30
+REMARK                  96
+REMARK                  97
+REMARK                 151
+REMARK                 153
+REMARK                 155
+REMARK                 167
+REMARK                 222
+REMARK
+REMARK     Target residues, EC side
+REMARK                   4
+REMARK                  57
+REMARK                  75
+REMARK                 120
+REMARK                 123
+REMARK                 125
+REMARK                 198
+REMARK
+HETATM    1  CL  CL  A   1      12.904  -9.119  26.761
+HETATM    2  CL  CL  A   2      -4.773  15.824  26.070
+HETATM    3  CL  CL  A   3      10.693  -0.266  24.194
+HETATM    4  CL  CL  A   4     -10.965   4.568  20.269
+HETATM    5  CL  CL  A   5      12.679  18.984  23.796
+HETATM    6  CL  CL  A   6     -12.045 -10.504  19.165
+HETATM    7  NA  NA  A   7      -2.134  -3.869 -18.278
+HETATM    8  NA  NA  A   8      -0.020   4.435 -10.874
+HETATM    9  NA  NA  A   9       9.624  -3.576 -23.492

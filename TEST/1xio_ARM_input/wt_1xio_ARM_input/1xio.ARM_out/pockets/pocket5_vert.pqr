@@ -1,0 +1,62 @@
+HEADER
+HEADER This is a pqr format file writen by the programm fpocket.                 
+HEADER It represent the voronoi vertices of a single pocket found by the         
+HEADER algorithm.                                                                
+HEADER                                                                           
+HEADER Information about the pocket     6:
+HEADER 0  - Pocket Score                      : 2.9088
+HEADER 1  - Drug Score                        : 0.0276
+HEADER 2  - Number of V. Vertices             :    40
+HEADER 3  - Mean alpha-sphere radius          : 4.0626
+HEADER 4  - Mean alpha-sphere SA              : 0.6051
+HEADER 5  - Mean B-factor                     : 0.1958
+HEADER 6  - Hydrophobicity Score              : 36.7143
+HEADER 7  - Polarity Score                    :     2
+HEADER 8  - Volume Score                      : 3.1429
+HEADER 9  - Real volume (approximation)       : 417.5406
+HEADER 10 - Charge Score                      :     0
+HEADER 11 - Local hydrophobic density Score   : 31.8788
+HEADER 12 - Number of apolar alpha sphere     :    33
+HEADER 13 - Proportion of apolar alpha sphere : 0.8250
+ATOM   3248 APOL STP     6       9.361  13.156  -2.938    0.00     3.00
+ATOM   3832 APOL STP     6       9.534   9.904  -0.140    0.00     3.06
+ATOM   4011 APOL STP     6       9.518  10.063  -0.152    0.00     3.18
+ATOM   3832  POL STP     6       9.580  10.005   0.055    0.00     3.17
+ATOM   4011  POL STP     6       9.567  10.075   0.030    0.00     3.22
+ATOM   3056 APOL STP     6      10.495  10.783   0.239    0.00     3.45
+ATOM   4014 APOL STP     6      10.512  11.015   0.160    0.00     3.62
+ATOM   4012 APOL STP     6      10.455  10.953   0.174    0.00     3.59
+ATOM   9500  POL STP     6      10.018  11.575   1.091    0.00     3.27
+ATOM   4014 APOL STP     6      11.244  11.848  -0.232    0.00     4.16
+ATOM   1875 APOL STP     6      11.643  12.823   1.760    0.00     3.85
+ATOM   5148 APOL STP     6      12.041  13.300   2.337    0.00     3.66
+ATOM   2103 APOL STP     6      11.660  12.822   1.726    0.00     3.87
+ATOM   2093 APOL STP     6      11.625  12.821   1.774    0.00     3.84
+ATOM   9503 APOL STP     6      11.025  13.056   2.842    0.00     3.27
+ATOM   9492 APOL STP     6      11.217  12.736   1.799    0.00     3.70
+ATOM   2093 APOL STP     6      11.306  12.647   0.974    0.00     4.05
+ATOM   9492  POL STP     6      11.149  12.634   1.133    0.00     3.94
+ATOM   2512 APOL STP     6      12.140  12.933  -0.047    0.00     4.75
+ATOM   2103 APOL STP     6      11.658  12.807   1.613    0.00     3.90
+ATOM   2512 APOL STP     6      11.011  12.228   0.581    0.00     3.97
+ATOM   4012 APOL STP     6      10.867  12.167   0.642    0.00     3.89
+ATOM   4014 APOL STP     6      10.951  12.113   0.514    0.00     3.94
+ATOM   3205  POL STP     6      12.021  13.545  -0.431    0.00     4.56
+ATOM   2512 APOL STP     6      12.746  12.961  -0.840    0.00     5.31
+ATOM   3205 APOL STP     6      13.091  13.227  -1.087    0.00     5.65
+ATOM   2512 APOL STP     6      12.465  13.048  -0.343    0.00     5.03
+ATOM   3205 APOL STP     6      12.928  13.269  -0.805    0.00     5.47
+ATOM   3205 APOL STP     6      13.545  13.615  -1.016    0.00     5.85
+ATOM   3205 APOL STP     6      13.100  13.231  -1.092    0.00     5.66
+ATOM   4203  POL STP     6      11.861  13.644  -0.361    0.00     4.37
+ATOM   3205 APOL STP     6      13.091  13.227  -1.094    0.00     5.65
+ATOM   9500  POL STP     6      10.638  12.141   0.862    0.00     3.72
+ATOM   9503 APOL STP     6      10.912  13.201   3.247    0.00     3.15
+ATOM   9504 APOL STP     6      10.741  13.213   3.645    0.00     3.02
+ATOM   4011 APOL STP     6       9.811  10.963  -1.909    0.00     3.37
+ATOM   4011 APOL STP     6      10.498  11.436  -1.884    0.00     3.83
+ATOM   2512 APOL STP     6      11.791  12.427  -2.260    0.00     4.75
+ATOM   4011 APOL STP     6      10.644  11.586  -1.889    0.00     3.94
+ATOM   5149 APOL STP     6      13.615  13.915   1.026    0.00     4.82
+TER
+END
