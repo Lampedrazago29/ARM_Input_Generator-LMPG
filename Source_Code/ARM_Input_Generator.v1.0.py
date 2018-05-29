@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Laura Pedraza-Gonzalez | Dic 2017
+# Laura Pedraza-Gonzalez | May 2018
 
 import os
 import sys 
@@ -35,9 +35,9 @@ rmList =sorted([ "ACE", "HG", "HOH", "ZN", "HTG", "HTO", "MAN", "NAG", "BMA", "S
 aaList=["ALA","ARG","ASN","ASP","CYS","GLU","GLN","GLY","HIS","ILE","LEU","LYS","MET","PHE",
         "PRO","SER","THR","TRP","TYR","VAL"]
 totalList= aaList+rmList
-chargedList= ["C-", "Oco", "N+"]
-protList = ['ASP', 'HIS', 'LYS', 'GLU']+chargedList
-protAA = {'ASP': 'ASH', 'LYS':'LYD', 'GLU':'GLH'}
+chargedList= ["C-", "Oco", "N+", "ACE"]
+protList = ['ASP', 'HIS', 'LYS', 'GLU', 'ARG']+chargedList
+protAA = {'ASP': 'ASH', 'LYS':'LYD', 'GLU':'GLH', 'ARG':'ARN'}
 pH = ''
 pdbPropkaTemp = ''
 ##################################################
@@ -572,13 +572,25 @@ def propKa():
 #    question = yes_no('\n <-> Do you want to perform the pKa analysis?')
     if question == True:
 
+
         global pdbPropkaTemp, pdbPropka 
-        pdbPropka = pdbARM[:-3]+'pka'
+        pdbARMFix = pdbARM[:-3]+'fix.pdb'
+        pdbPropka = pdbARMFix[:-3]+'pka'
         pdbPropkaTemp = pdbPropka+'.temp'
 
+        os.system(pdb2pqr+" -v --chain --ff=CHARMM "+str(pdbARM+" "+pdbARMFix))
+
         print '\n', str('Running PROPKA3.0 analysis for the \x1b[0;33;49m'+str(pdbARM)+'\x1b[0m input file').rjust(100, '.')
-        os.system (propkaScript+" "+pdbARM+ ">> /dev/null")
+        os.system (propkaScript+" "+pdbARMFix+ ">> /dev/null")
         print str("Done! The files \x1b[0;33;49m"+pdbARM[:-3]+"propka_input\x1b[0m and \x1b[0;33;49m"+pdbPropka+"\x1b[0m has been generated. ").rjust(100, '.')
+
+#        global pdbPropkaTemp, pdbPropka 
+#        pdbPropka = pdbARM[:-3]+'pka'
+#        pdbPropkaTemp = pdbPropka+'.temp'
+
+#        print '\n', str('Running PROPKA3.0 analysis for the \x1b[0;33;49m'+str(pdbARM)+'\x1b[0m input file').rjust(100, '.')
+#        os.system (propkaScript+" "+pdbARM+ ">> /dev/null")
+#        print str("Done! The files \x1b[0;33;49m"+pdbARM[:-3]+"propka_input\x1b[0m and \x1b[0;33;49m"+pdbPropka+"\x1b[0m has been generated. ").rjust(100, '.')
         
         pH = PickNumber(14.0, '<-> Please write the pH-value (suggested value physiological pH 7.4) in the range ',  0, float)
         globals().update({ "pH"  : str(pH)})
