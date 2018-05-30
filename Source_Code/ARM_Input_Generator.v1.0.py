@@ -197,7 +197,7 @@ def SearchFileType(ext, message0 = "",  message1 = "", message2 = ""):
 ##################################################
 #This function identify the elements of a list, creates an enumerate list, ask the user to choose the number of 
 #the correct one and creates a global variable with that information
-#########ç#########################################
+##################################################
 def ChooseNumOption(nameList, element, type, message0, message1, message2, pick, dictionary = {}): 
 # element=(fileName, residue, chain...), type=(pdb, chromophore, chain), message1=(initial message to show the list), message2=(final message)
     if nameList:
@@ -555,7 +555,7 @@ def Charge(Name, NameNum, pKa, pH):
     exponent = np.power(10, (pKa - pH))
     The_Charge = exponent / (1.0 + exponent)
 
-    if (Name == 'ASP') or (Name == 'GLU') or (Name == 'C-') or (Name == 'CYS') or (Name == 'TYR') or (Name == 'Oco'):
+    if (Name == 'ASP') or (Name == 'GLU') or (Name == 'C-') or (Name == 'CYS') or (Name == 'TYR') or (Name == 'Oco') or (Name == 'OXT'):
         The_Charge = The_Charge-1
 
     The_Charge = round(The_Charge)
@@ -572,26 +572,17 @@ def propKa():
 #    question = yes_no('\n <-> Do you want to perform the pKa analysis?')
     if question == True:
 
-
         global pdbPropkaTemp, pdbPropka 
         pdbARMFix = pdbARM[:-3]+'fix.pdb'
         pdbPropka = pdbARMFix[:-3]+'pka'
         pdbPropkaTemp = pdbPropka+'.temp'
 
-        os.system(pdb2pqr+" -v --chain --ff=CHARMM "+str(pdbARM+" "+pdbARMFix))
+        os.system(pdb2pqr+" --chain --ff=amber "+str(pdbARM+" "+pdbARMFix))
 
         print '\n', str('Running PROPKA3.0 analysis for the \x1b[0;33;49m'+str(pdbARM)+'\x1b[0m input file').rjust(100, '.')
         os.system (propkaScript+" "+pdbARMFix+ ">> /dev/null")
         print str("Done! The files \x1b[0;33;49m"+pdbARM[:-3]+"propka_input\x1b[0m and \x1b[0;33;49m"+pdbPropka+"\x1b[0m has been generated. ").rjust(100, '.')
 
-#        global pdbPropkaTemp, pdbPropka 
-#        pdbPropka = pdbARM[:-3]+'pka'
-#        pdbPropkaTemp = pdbPropka+'.temp'
-
-#        print '\n', str('Running PROPKA3.0 analysis for the \x1b[0;33;49m'+str(pdbARM)+'\x1b[0m input file').rjust(100, '.')
-#        os.system (propkaScript+" "+pdbARM+ ">> /dev/null")
-#        print str("Done! The files \x1b[0;33;49m"+pdbARM[:-3]+"propka_input\x1b[0m and \x1b[0;33;49m"+pdbPropka+"\x1b[0m has been generated. ").rjust(100, '.')
-        
         pH = PickNumber(14.0, '<-> Please write the pH-value (suggested value physiological pH 7.4) in the range ',  0, float)
         globals().update({ "pH"  : str(pH)})
 
@@ -608,7 +599,7 @@ def propKa():
             for line in pkaFile:
                 for i in range(0, len(protList)):
                     if protList[i] in line.split()[0] and linker_aa_ID not in line.split()[1] and counterion_ID not in line.split()[1]:
-                        shift = 1.6
+                        shift = 2.0
                         pKa_calc = line.split()[3]
                         pKa_model = line.split()[4]
                         diff_pKa = '%.2f' %(abs((float(pKa_calc) - float(pKa_model))))
@@ -663,7 +654,6 @@ def protonation(pdbARM):
                         replaceLine(pdbARM, "ATOM", chainName+'{:>4}'.format(key), protAA)
                         print "\n ---> The protonation state of the residue \x1b[0;33;49m"+protResDictionary[key]+" "+key+"\x1b[0m has been changed to \x1b[0;33;49m"+str(protAA[protResDictionary[key]])+"\x1b[0m \n"
                 return
-
                 
             if question2 == False:
                 continue
@@ -721,33 +711,6 @@ def numberCounterions(pdbARM):
                                 bottomCharge = bottomCharge + 1
                                 bottomList.append(line.split()[5])
 
-
-# #Position of the linker amino acid                                              
-#             with open(pdbARM) as file:
-#                 for line in file:
-# #                    if (aa1 in line or aa2 in line or aa3 in line) and "CA" in line and linker_aa_ID not in line.split()[5] and counterion_ID not in line.split()[5]:
-#                     if (aa1 in line or aa2 in line or aa3 in line) and "CA" in line: #The linker_aa and main_counterion should be conserved in cases where one of them is protonated 
-#                         if signlinker_aa > 0:
-#                             resta = (float(line.split()[8]) - float(newcenterXYZ[2]))
-#                             if  (float(line.split()[8]) - float(newcenterXYZ[2])) > 0:
-#                                 topCharge = topCharge + 1
-#                                 topList.append(line.split()[5])
-#                                 print line.split()[3]+"\t"+line.split()[5]+"\t"+"TOP"+"\t"+str(resta)
-#                             else:
-#                                 print line.split()[3]+"\t"+line.split()[5]+"\t"+"BOTTOM"+"\t"+str(resta)
-#                                 bottomCharge = bottomCharge + 1
-#                                 bottomList.append(line.split()[5])
-#                         if signlinker_aa < 0:
-#                             resta = (float(line.split()[8]) - float(newcenterXYZ[2]))
-#                             if  (float(line.split()[8]) - float(newcenterXYZ[2])) < 0:
-#                                 topCharge = topCharge + 1
-#                                 topList.append(line.split()[5])
-#                                 print line.split()[3]+"\t"+line.split()[5]+"\t"+"TOP"+"\t"+str(resta)
-#                             else:
-#                                 print line.split()[3]+"\t"+line.split()[5]+"\t"+"BOTTOM"+"\t"+str(resta)
-#                                 bottomCharge = bottomCharge + 1
-#                                 bottomList.append(line.split()[5])
-
             globals().update({ "top"+Charge  : topCharge})
             globals().update({ "top"+List  : topList})
             globals().update({ "bottom"+Charge  : bottomCharge})
@@ -788,7 +751,6 @@ def numberCounterions(pdbARM):
 #        print "\n", warning, "The linker amino acid", linker_aa, "and the main counterion", main_counterion, "have been excluded from this analysis"
 
 #Exclude the linker amino acid and the main counterion from the list of target residues
-
 
         Step('10. Add the counterions to the inner and outer layer of the proteins', '\n Luca De Vico & Laura Pedraza-González.' )
         addCounterIons(pdbARM)
@@ -929,10 +891,15 @@ def fpocket():
     question = yes_no('\n <-> Do you want to calculate the chromophore cavity? ')
     if question == True:
         os.system('fpocket -f '+pdbARM)
-        print "\n The folder", pdbARM[:-4]+"_out", "has been generated"
+        print "\n The folder", pdbARM[:-4]+"_out", "containing the pockets has been generated"
 
-        pocketFile = pdbARM[:-4]+"_out/pockets/pocket0_atm.pdb"
-    
+#LMPG 29-05-2018
+#This function identifies the pocket which contains the linker AA
+
+        pocketFile= commands.getoutput("grep -lr "+"\""+chainName+'{:>4}'.format(str(linker_aa_ID))+"\""+" "+pdbARM[:-4]+"_out/pockets/*pdb")
+# In fpocket the pockets are numbered from highest to lowest score. Here, the pocket of highest score which contains the linker aa is selected.
+        pocketFile= pocketFile.split("\n")[0] 
+
         with open(pocketFile) as cavityFile:
             listcavity = [counterion_ID, linker_aa_ID]
             for line in cavityFile:
@@ -949,7 +916,6 @@ def fpocket():
     
     else:
         print '---> No cavity file generated'
-
 
 ##################################################
 #MUTATIONS
@@ -1023,7 +989,69 @@ def wT_analysis():
     os.chdir(wt_workingFolder)
 
 ##################################################
-# CALL FUNCTIONS
+#pyMoL Figures generator
+##################################################
+def pyMoLFig():
+    pyMoLScript = pdbARM[:-4]+".pml"
+    with open(pyMoLScript, "w") as pyMoLScript:
+        pyMoLScript.writelines(["from pymol import cmd,stored \n",
+                                "bg_color white \n",
+                                "load "+pdbARM+" \n",
+                                "set auto_zoom, off \n",
+                                "hide cartoon, all \n",
+                                "hide spheres, all \n",
+                                "hide nb_spheres, all \n",
+                                "hide sticks, all \n",
+                                "# Chromophore \n",
+                                "select resn "+chromophoreName+" \n",
+                                "create CHROMOPHORE, sele \n",
+                                "show sticks, CHROMOPHORE \n",
+                                "color tv_green, CHROMOPHORE \n",
+                                "#Linker amino acid \n",
+                                "select resi "+linker_aa_ID+" \n",
+                                "create linkerAA, sele \n",
+                                "show sticks, linkerAA \n",
+                                "color blue, linkerAA \n",
+                                "#Main counterion \n",
+                                "select resi "+counterion_ID+" \n",
+                                "create mainCounter, sele \n",
+                                "show sticks, mainCounter \n",
+                                "color lightblue, mainCounter \n",
+                                "#CL \n",
+                                "select resn CL \n",
+                                "create CL, sele \n",
+                                "show spheres, CL \n",
+                                "color red, CL \n",
+                                "#NA \n",
+                                "select resn NA \n",
+                                "create NA, sele \n",
+                                "show spheres, NA \n",
+                                "color blue, NA \n",
+                                "#Chain \n",
+                                "select resn HOH \n",
+                                "create WaterHOH, sele \n",
+                                "show nb_spheres, WaterHOH \n"
+                                "select all and not CHROMOPHORE and not CL and not NA and not WaterHOH and not mainCounter and not linkerAA \n",
+                                "create mainChain, sele \n",
+                                "show cartoon, mainChain \n"
+                                "color gray, mainChain \n"
+                                "set_bond stick_radius, 0.35, all \n",
+                                "set sphere_scale, 0.5 \n",
+                                "set sphere_quality, 2 \n",
+                                "set cartoon_transparency, 0.6 \n",
+                                "set ray_trace_mode, 3 \n",
+                                "set ray_shadows, 0 \n",
+                                "set antialias, 2 \n",
+                                "rotate x, -90 \n",
+                                "rotate y, -90 \n",
+                                "ray 1200,1200 \n",
+                                "png "+pdbARM[:-4]+".png \n",
+                                ])
+
+        print str("The pyMoL script \x1b[0;33;49m"+str(pdbName[:-4]+".pml")+"\x1b[0m has been generated. ").rjust(100, '.')
+
+##################################################
+# Call FUNCTIONS
 ##################################################
 
 localtime = time.asctime( time.localtime(time.time()) )
@@ -1064,16 +1092,18 @@ protonation(pdbARM)
 
 Step('9. Calculation of the number of counterions (Cl- and Na+) needed to neutralize the system', '')
 numberCounterions(pdbARM)
+pyMoLFig()
 
 Step('11. Definiton of the '+chromophoreName+' chromophore cavity using fpocket','\n'+ fpocketCite)
 fpocket()
+pyMoLFig()
 os.chdir("../")
-
 
 Step('12. Preparation of mutants', '\n'+ modellerCite)
 Mutations()
 
 Step('The '+'\x1b[0;33;49m'+pdbARM+' file is ready to be used as input for the ARM protocol! \x1b[0m')
+
 
 if path.exists(pdbPropkaTemp):
     os.remove(pdbPropkaTemp)
