@@ -1,0 +1,316 @@
+ Local current time : Wed May 30 14:45:30 2018
+
+----------------------------------------------------------------------------------------------------
+**************** Welcome to the interface for the automatic preparation of the ARM input file ****************
+Laura Pedraza-González, Luca De Vico, Federico Melaccio, Prof. Massimo Olivucci. 
+ Laboratory for Computational Photochemistry and Photobiology (LCPP), University of Siena  - 2018
+---------------------------------------------------------------------------------------------------- 
+
+____________________________________________________________________________________________________
+--------------- 1. Download a crystal structure -PDB file- from the RCSB Protein Data Bank 
+-------- ---> This step uses the https://www.rcsb.org/ web page 
+ (Berman, H. M. Nucleic Acids Res., (2000), 28, 235–242.)
+____________________________________________________________________________________________________
+
+ Do you want to download the PDB file from the RCSB Protein Data Bank webpage? [y/n] y
+<-> Introduce the pdbID (i.e. 1u19):  1u19
+
+.........................................Verifying that the requested PDB file is on the RSCB server
+............................. Downloading the pdb file
+
+ ---> The 1u19.pdb file is now in your folder. 
+<--- TITLE     CRYSTAL STRUCTURE OF BOVINE RHODOPSIN AT 2.2 ANGSTROMS RESOLUTION     
+
+____________________________________________________________________________________________________
+--------------- 2. Selection of the PDB file--------------------------------------------------------  
+____________________________________________________________________________________________________
+
+ The following pdb files are found: 
+
+1) 1u19.pdb
+
+ To select the correct option pick a number in range 1-1:	1
+
+ ---> The 1u19.pdb file will be used for preparing the ARM input file.
+cp: *seqmut: No such file or directory
+____________________________________________________________________________________________________
+--------------- 3. Search and selection of the Chain------------------------------------------------  
+____________________________________________________________________________________________________
+
+ The following are identified as possible chain in the 1u19.pdb file:
+1) A
+2) B
+
+ To select the correct option pick a number in range 1-2:	1
+
+ ---> The A is selected as the chain
+____________________________________________________________________________________________________
+--------------- 4. Find the residue(s) with different rotamers and select the correct one(s)--------  
+____________________________________________________________________________________________________
+
+ No rotamers found in the  1u19.pdb file
+____________________________________________________________________________________________________
+--------------- 5. Search and selection of the Chromophore------------------------------------------  
+____________________________________________________________________________________________________
+
+ The following are identified as possible chromophore in the 1u19.pdb file:
+1) RET 1296
+
+ To select the correct option pick a number in range 1-1:	1
+
+ ---> The RET is selected as the chromophore
+____________________________________________________________________________________________________
+--------------- 6. Center the whole protein+chromophore on the center of mass of the whole complex-- 
+ Luca De Vico & Laura Pedraza-González. 
+---> This step uses the VMD - Visual Molecular Dynamics software 
+ (Humphrey, W., Dalke, A. and Schulten, K., J. Molec. Graphics, (1996), 14, 33-38.)
+____________________________________________________________________________________________________
+
+......................................Centering the protein+RET on the center of mass of the complex
+...............................................................................................Done!
+
+ ---> The chromophore label has been changed to:  RET 349
+
+ <-> Type the Residue sequence number of the main counterion:	113
+---> The residue you selected as main counterion is: 113
+ Are you sure about your selection? [y/n] y
+
+ ---> The linker atom of RET is C20. The linker amino acid is LYS 296 and the main counterion is GLU 113
+
+ ----> The 1u19.ARM.pdb ARM input file has been generated.
+____________________________________________________________________________________________________
+--------------- 7. Analysis of the amino acid ionization states:
+ pKa analysis using the "PROPKA3.1: A PROTEIN PKA PREDICTOR" software 
+ Luca De Vico & Laura Pedraza-González. 
+---> This step uses the PROPKA3 software. 
+ (Olsson, M. H., Søndergaard, C. R., Rostkowski, M., and Jensen, J. H., JCTC, (2011), 7(2), 525-537.)
+____________________________________________________________________________________________________
+
+--------------------------
+PDB2PQR - a Python-based structural conversion utility
+--------------------------
+Please cite your use of PDB2PQR as:
+  Dolinsky TJ, Nielsen JE, McCammon JA, Baker NA.
+  PDB2PQR: an automated pipeline for the setup, execution,
+  and analysis of Poisson-Boltzmann electrostatics calculations.
+  Nucleic Acids Research 32 W665-W667 (2004).
+
+
+............................Running PROPKA3.0 analysis for the 1u19.ARM.pdb input file
+Done! The files 1u19.ARM.propka_input and 1u19.ARM.fix.pka has been generated. 
+
+<-> Please write the pH-value (suggested value physiological pH 7.4) in the range 0-14.0:	7.4
+
+ ---> At pH  7.4 the predicted charge of the residues is: 
+________________________________________
+ RESIDUE CHARGE  pKa  (pKa - pKa-model)
+________________________________________
+ASP  83    0    9.17        5.37   
+ASP 190   -1    4.33        0.53   
+ASP 282   -1    4.02        0.22   
+ASP 330   -1    3.54        0.26   
+ASP 331   -1    4.20        0.40   
+GLU   5   -1    4.95        0.45   
+GLU  25   -1    4.63        0.13   
+GLU  33   -1    4.72        0.22   
+GLU 122    0    8.70        4.20   
+GLU 134   -1    5.51        1.01   
+GLU 150   -1    4.21        0.29   
+GLU 181    0    7.43        2.93   
+GLU 196   -1    4.58        0.08   
+GLU 197   -1    4.08        0.42   
+GLU 201   -1    4.97        0.47   
+GLU 232   -1    4.42        0.08   
+GLU 239   -1    2.29        2.21   
+GLU 247   -1    4.54        0.04   
+GLU 249   -1    5.96        1.46   
+GLU 332   -1    6.31        1.81   
+GLU 341   -1    3.25        1.25   
+ C- 348   -1    3.30        0.10   
+HIS  65    0    4.94        1.56   
+HIS 100    0    5.94        0.56   
+HIS 152    0    5.99        0.51   
+HIS 195    0    6.02        0.48   
+HIS 211    0    4.02        2.48   
+HIS 278    0    6.64        0.14   
+LYS  16    1    10.46       0.04   
+LYS  66    1    9.82        0.68   
+LYS  67    1    10.06       0.44   
+LYS 141    1    10.32       0.18   
+LYS 231    1    10.30       0.20   
+LYS 245    1    10.74       0.24   
+LYS 248    1    10.17       0.33   
+LYS 311    1    10.19       0.31   
+LYS 325    1    11.18       0.68   
+LYS 339    1    10.47       0.03   
+ARG  21    1    12.51       0.01   
+ARG  69    1    11.78       0.72   
+ARG 135    1    13.73       1.23   
+ARG 147    1    12.40       0.10   
+ARG 177    1    12.47       0.03   
+ARG 252    1    12.56       0.06   
+ARG 314    1    12.00       0.50   
+ N+   1    1    7.56        0.44   
+
+ Based on the computed charges, the suggested residues to be protonated are: ionizable residue 
+1) ASP  83    0
+2) GLU 122    0
+3) GLU 181    0
+4) HIS 211    0
+Warning:  Check carefully if HIS residues must be protonated!
+Warning: The linker amino acid LYS 296 and the main counterion GLU 113 have been excluded from this analysis
+____________________________________________________________________________________________________
+--------------- 8. Change the ionization state of selected amino acids------------------------------ 
+____________________________________________________________________________________________________
+
+ <-> Based on the computed charges and the experimental information, do you want to change 
+ the ionization state of any amino acid? (ASP --> ASH, GLU --> GLH, HIS --> (HID or HIE or HIP), LYS --> LYD) [y/n] y
+
+ <-> Introduce the NUMBER ID of the residues, separated by space " " (i.e. 1 2 3):  83 122 181 211
+---> The residues you selected are: {'83': 'ASP', '122': 'GLU', '181': 'GLU', '211': 'HIS'}
+ Are you sure about your selection? [y/n] y
+
+
+******************************************************************************** 
+Warning: Remember that: 
+ HID: Histidine with hydrogen on the delta nitrogen 
+ HIE: Histidine with hydrogen on the epsilon nitrogen 
+ HIP: Histidine with hydrogens on both nitrogens; this is positively charged. 
+******************************************************************************** 
+
+
+ ---> The protonation state of the residue ASP 83 has been changed to ASH 
+
+
+ ---> The protonation state of the residue GLU 122 has been changed to GLH 
+
+
+ ---> The protonation state of the residue GLU 181 has been changed to GLH 
+
+
+ <-> Please select the correct ionization state of the residue HIS 211:
+
+ Choose the  HIS protonation state.
+1) HIE
+2) HID
+3) HIP
+
+ To select the correct option pick a number in range 1-3:	2
+
+ ---> The HID is the new protonation state.
+____________________________________________________________________________________________________
+--------------- 9. Calculation of the number of counterions (Cl- and Na+) needed to neutralize the system 
+____________________________________________________________________________________________________
+----------------------------- 
+ Summary 
+-----------------------------
+LYS	16	BOTTOM	32.439
+ARG	21	BOTTOM	25.63
+HIS	65	TOP	-26.275
+LYS	66	TOP	-27.72
+LYS	67	TOP	-29.095
+ARG	69	TOP	-25.381
+HIS	100	BOTTOM	15.464
+ARG	135	TOP	-21.828
+LYS	141	TOP	-28.225
+ARG	147	TOP	-29.368
+HIS	152	TOP	-21.571
+ARG	177	BOTTOM	11.623
+HIS	195	BOTTOM	18.835
+LYS	231	TOP	-24.511
+LYS	245	TOP	-32.293
+LYS	248	TOP	-26.985
+ARG	252	TOP	-21.061
+HIS	278	BOTTOM	16.228
+LYS	296	BOTTOM	0.0
+LYS	311	TOP	-26.332
+ARG	314	TOP	-23.313
+LYS	325	TOP	-30.177
+LYS	339	TOP	-29.417
+_____________________________ 
+ topPositive= 16
+bottomPositive= 7 
+
+GLU		5 BOTTOM	23.776
+GLU		25		BOTTOM	22.27
+GLU		33		BOTTOM	18.434
+GLU		113		BOTTOM	6.359
+GLU		134		TOP	-21.356
+GLU		150		TOP	-24.396
+ASP		190		BOTTOM	12.559
+GLU		196		BOTTOM	18.372
+GLU		197		BOTTOM	18.787
+GLU		201		BOTTOM	12.672
+GLU		232		TOP	-22.917
+GLU		239		TOP	-34.904
+GLU		247		TOP	-28.55
+GLU		249		TOP	-25.463
+ASP		282		BOTTOM	21.097
+ASP		330		TOP	-31.752
+ASP		331		TOP	-31.733
+GLU		332		TOP	-31.668
+GLU		341		TOP	-34.03
+_____________________________ 
+ topNegative= 10
+bottomNegative= 9 
+
+Number of positively charged residues:	23
+Number of negatively charged residues: 	19
+----------------------------- 
+Total charge top: 	      6		|  Suggestion: Add to the top  6 CL
+----------------------------- 
+Total charge bottom: 	      -2	|  Suggestion: Add to the bottom 2 NA
+-----------------------------
+____________________________________________________________________________________________________
+--------------- 10. Add the counterions to the inner and outer layer of the proteins---------------- 
+ Luca De Vico & Laura Pedraza-González.
+____________________________________________________________________________________________________
+
+--------------------------
+PDB2PQR - a Python-based structural conversion utility
+--------------------------
+Please cite your use of PDB2PQR as:
+  Dolinsky TJ, Nielsen JE, McCammon JA, Baker NA.
+  PDB2PQR: an automated pipeline for the setup, execution,
+  and analysis of Poisson-Boltzmann electrostatics calculations.
+  Nucleic Acids Research 32 W665-W667 (2004).
+
+The  1u19.ARM.pqr file has been generated and is ready to be used in the putIon module.
+
+ ---> Running PutIon analysis over the 1u19.ARM.pqr file for the placement of the counterions
+---> The following coordinates for the  CL and NA  counterions have been added to the  1u19.ARM.pdb file: 
+
+HETATM 2807  CL   CL A 387     -11.587  18.394 -27.847
+HETATM 2808  CL   CL A 388      11.960  -7.129 -31.005
+HETATM 2809  CL   CL A 389      -5.357  -9.710 -35.686
+HETATM 2810  CL   CL A 390     -10.087  23.394 -31.347
+HETATM 2811  CL   CL A 391       7.928  13.990 -29.196
+HETATM 2812  CL   CL A 392      -9.235   6.825 -36.534
+HETATM 2813  NA   NA A 393      -0.495 -10.217  12.019
+HETATM 2814  NA   NA A 394     -12.406  -2.905  18.428
+........................................The pyMoL script 1u19.pml has been generated. 
+____________________________________________________________________________________________________
+--------------- 11. Definiton of the RET chromophore cavity using fpocket--------------------------- 
+---> This step uses the fpocket software. 
+ (Le Guilloux, V., Schmidtke, P. and Tuffery, P. BMC Bioinformatics, (2009), 10(1), 168)
+____________________________________________________________________________________________________
+
+ <-> Do you want to calculate the chromophore cavity?  [y/n] y
+***** POCKET HUNTING BEGINS ***** 
+***** POCKET HUNTING ENDS ***** 
+
+ The folder 1u19.ARM_out containing the pockets has been generated
+---> The cavity file has been generated
+........................................The pyMoL script 1u19.pml has been generated. 
+____________________________________________________________________________________________________
+--------------- 12. Preparation of mutants---------------------------------------------------------- 
+---> This step uses the MODELLER 9.19 software. 
+ (Webb, B. and Sali, A. Curr. Protoc. Bioinformatics (2014), 47, 5.6.1–32)
+____________________________________________________________________________________________________
+
+ <-> Do you want to perform mutations of the wild type 1u19.ARM.pdb file? [y/n] n
+---> No mutations requested.
+____________________________________________________________________________________________________
+--------------- The 1u19.ARM.pdb file is ready to be used as input for the ARM protocol!   
+____________________________________________________________________________________________________
+Total excecution time (min): 2.36962854862
