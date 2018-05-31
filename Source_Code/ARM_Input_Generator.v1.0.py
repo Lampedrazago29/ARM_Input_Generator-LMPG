@@ -636,7 +636,6 @@ def propKa():
         pdbARMFix = pdbARM[:-3]+'fix.pdb'
         pdbPropka = pdbARMFix[:-3]+'pka'
         pdbPropkaTemp = pdbPropka+'.temp'
-#        pdbPropkaTemp2 = pdbPropka+'.temp2'
 
         os.system(pdb2pqr+" --chain --ff=amber "+str(pdbARM+" "+pdbARMFix))
 
@@ -654,7 +653,10 @@ def propKa():
                     if protList[i] in line and chainName in line and "%" in line:
                         line2 = line.split()[0]
                         if protList[i] in line2 and chainName in line and "%" in line:
-                            file2.writelines("%s \t %s \t %s \t  %s \t %s \t %s \n" % (line.split()[0],line.split()[1],line.split()[3],protAApKa.get(line.split()[0]),line.split()[4],line.split()[5])) 
+                            contentFile2 = ("%s \t %s \t %s \t  %s \t %s \t %s \n" % (line.split()[0],line.split()[1],line.split()[3],protAApKa.get(line.split()[0]),line.split()[4],line.split()[5])) 
+#Coupled residues detected by propKa are marked with * symbol
+                            file2.writelines(contentFile2.replace('*', ' '))
+        
 
         print "\n ---> At pH ", pH, "the predicted charge of the residues is: \n", '_'*60 +'\n', '{:^9}'.format('RESIDUE')+'{:^6}'.format('CHARGE')+'{:^6}'.format(' pKa')+'{:^18}'.format(' (pKa - pKa-model)')+'{:^12}'.format('BURIED (%)')+ '\n'+ '_'*60
 
