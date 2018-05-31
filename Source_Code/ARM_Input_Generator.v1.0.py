@@ -40,6 +40,8 @@ protList = ['ASP', 'HIS', 'LYS', 'GLU', 'ARG']+chargedList
 protAA = {'ASP': 'ASH', 'LYS':'LYD', 'GLU':'GLH', 'ARG':'ARN'}
 pH = ''
 pdbPropkaTemp = ''
+#LMPG-31-05-2018 model-pKa
+protAApKa = {'ASP': '3.80', 'LYS':'10.5', 'GLU':'4.50', 'ARG':'12.5', 'HIS': '6.50', 'C-': '3.20', 'N+': '8.00'}
 ##################################################
 #This function prints the inital message of the script
 ##################################################
@@ -397,6 +399,27 @@ def SearchLinkerAA(diffPar = 1.5):
         if question3 == False:
             continue
 
+    
+##################################################
+#This function locates the two nearest possible counterions to the RET
+##################################################
+    def FindCounterIons():
+        counterionsfilename = "output_counter_ions.dat"
+        string0 = ['mol load pdb %s \n' % pdbARMTemp,
+                   'set negatives [atomselect top \"(resname GLU or resname ASP) and type CG\" ]\n',
+                   'set linker [[atomselect top \"resid ' + linker_aa_ID + ' and type NZ\"] list]\n',
+                   'set outfile [open ' + counterionsfilename +  ' w]\n',
+                   'puts $outfile [$negatives get {resname resid}]\n',
+                   'foreach coord [atomselect0 list] {\n',
+                   'puts $outfile [measure bond [list $coord $linker]]\n',
+                   '}\n',
+                   'close $outfile\n']
+
+        VMDTempFile("counterions", string0, "counter", False)
+        FindCounterIons()
+
+
+#############3
     print "\n ---> The linker atom of", chromophoreName, "is "+'\x1b[0;33;49m'+labelsChr[j]+'\x1b[0m'+". The linker amino acid is", '\x1b[0;33;49m'+linker_aa+'\x1b[0m and the main counterion is '+'\x1b[0;33;49m'+main_counterion+'\x1b[0m'
 
 #############################
@@ -576,6 +599,7 @@ def propKa():
         pdbARMFix = pdbARM[:-3]+'fix.pdb'
         pdbPropka = pdbARMFix[:-3]+'pka'
         pdbPropkaTemp = pdbPropka+'.temp'
+#        pdbPropkaTemp2 = pdbPropka+'.temp2'
 
         os.system(pdb2pqr+" --chain --ff=amber "+str(pdbARM+" "+pdbARMFix))
 
@@ -586,32 +610,37 @@ def propKa():
         pH = PickNumber(14.0, '<-> Please write the pH-value (suggested value physiological pH 7.4) in the range ',  0, float)
         globals().update({ "pH"  : str(pH)})
 
-        # A temporal file with the summary of the propka analysis
-        with open(pdbPropka) as file, open(pdbPropkaTemp, "w") as file2:
-            content = file.read()
-            text = re.search(r'SUMMARY OF THIS PREDICTION\n.*?--------------------------------------', content, re.DOTALL).group()
-            file2.write(text)
+        # A temporal file with the summary of the propka analysis including the Buried values
+        with open(pdbPropka, "r") as file, open(pdbPropkaTemp, "w") as file2:
+            for line in file:
+                for i in range(0, len(protList)):
+                    if protList[i] in line and chainName in line and "%" in line:
+                        line2 = line.split()[0]
+                        if protList[i] in line2 and chainName in line and "%" in line:
+                            file2.writelines("%s \t %s \t %s \t  %s \t %s \t %s \n" % (line.split()[0],line.split()[1],line.split()[3],protAApKa.get(line.split()[0]),line.split()[4],line.split()[5])) 
+
+        print "\n ---> At pH ", pH, "the predicted charge of the residues is: \n", '_'*60 +'\n', '{:^9}'.format('RESIDUE')+'{:^6}'.format('CHARGE')+'{:^6}'.format(' pKa')+'{:^18}'.format(' (pKa - pKa-model)')+'{:^12}'.format('BURIED (%)')+ '\n'+ '_'*60
 
         # Analysis based on Luca's proposal
-        print "\n ---> At pH ", pH, "the predicted charge of the residues is: \n", '_'*40 +'\n', '{:^9}'.format('RESIDUE')+'{:^6}'.format('CHARGE')+'{:^6}'.format(' pKa')+'{:^18}'.format(' (pKa - pKa-model)')+ '\n'+ '_'*40
-
         with open(pdbPropkaTemp) as pkaFile:
             for line in pkaFile:
                 for i in range(0, len(protList)):
-                    if protList[i] in line.split()[0] and linker_aa_ID not in line.split()[1] and counterion_ID not in line.split()[1]:
-                        shift = 2.0
-                        pKa_calc = line.split()[3]
-                        pKa_model = line.split()[4]
+                    if protList[i] in line.split()[0]:# and linker_aa_ID not in line.split()[1] and counterion_ID not in line.split()[1]:
+                        shift = 1.5
+                        perc_buried_min = 55
+                        pKa_calc = line.split()[2]
+                        pKa_model = line.split()[3]
+                        perc_buried = line.split()[4]
                         diff_pKa = '%.2f' %(abs((float(pKa_calc) - float(pKa_model))))
                         Charge(line.split()[0], line.split()[1], float(pKa_calc), pH)
-                        print resPkaAna, '{:^11}'.format(pKa_calc) , '{:^10}'.format(diff_pKa)
+                        print resPkaAna, '{:^11}'.format(pKa_calc) , '{:^10}'.format(diff_pKa), '{:^10}'.format(perc_buried)
                         if (protList[i] == "ASP" or protList[i] == "GLU") and The_Charge != -1:
                             resPkaAnaList.append(resPkaAna)
                         
                         if (protList[i] == "ARG" or protList[i] == "LYS") and The_Charge != 1:
                             resPkaAnaList.append(resPkaAna)
-                        # Normal analysis using a shift paramter
-                        if protList[i] == "HIS" and float(diff_pKa) > shift:
+                        # "Traditional" analysis using a shift paramter and buried percentage > 60% (LMPG-31-05-2018)
+                        if protList[i] == "HIS" and float(diff_pKa) > shift and int(perc_buried)>= perc_buried_min:
                             resPkaAnaList.append(resPkaAna)
 
         ChooseNumOption(resPkaAnaList,"", "ionizable residue", '\n Based on the computed charges, the suggested residues to be protonated are:', '', '', False, "")     
