@@ -897,9 +897,14 @@ def addCounterIons(pdbARM):
 
 #bottomNegList
             infoIon.write("EOF")
-
             outIon = "outputPutIon."+pqrARM[:-4]
             os.system("chmod 777 "+infoIonFile)
+            
+            TargetInner_pymol = '+'.join(TargetInner)
+            TargetOuter_pymol = '+'.join(TargetOuter)
+
+            globals().update({"TargetInner_pymol" : TargetInner_pymol})
+            globals().update({"TargetOuter_pymol" : TargetOuter_pymol})
 
     PutIon()
 #Execution of the PutIon module
@@ -1079,8 +1084,6 @@ def wT_analysis():
 #pyMoL Figures generator
 ##################################################
 def pyMoLFig():
-    TargetInner_pymol = '+'.join(TargetInner)
-    TargetOuter_pymol = '+'.join(TargetOuter)
     cavity_pymol = '+'.join(cavityList)
 
     pyMoLScript = pdbARM[:-4]+".pml"
