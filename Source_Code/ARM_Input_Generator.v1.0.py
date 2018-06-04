@@ -444,8 +444,10 @@ def SearchLinkerAA(diffPar = 1.5):
         secondbest = [distances[1][0], distances[1][1]]
 
         counterion_ID = distances[0][1]
+        second_counterion_ID = distances[1][1]
 
         globals().update({"counterion_ID" : counterion_ID})
+        globals().update({"second_counterion_ID" : second_counterion_ID})
         with open(pdbARMTemp) as pdbTemp:
             for line in pdbTemp:
                 if "ATOM" in line and chainName+'{:>4}'.format(str(counterion_ID)) in line:
@@ -853,30 +855,47 @@ def addCounterIons(pdbARM):
         global outIon
         global infoIonFile
         infoIonFile = "infoIon"+pdbARM[:-4]+".sh"
+
+# Remove the linker aa, the main counterion and the residues of the cavity from the target residues list
+
 #inner
         with open(infoIonFile, "w") as infoIon:
+            TargetInner = [] #This list contains the target residues 
+            TargetOuter = []
             infoIon.write("#!/bin/bash \n \n")
             infoIon.write(putIon+" << EOF \n")
             infoIon.write(pqrARM+"\n")
             infoIon.write(str(TotalTop)+"\n")
             if TotalTop > 0:
-                infoIon.write(str(topPositive)+"\n")
+                infoIon.write(str(len(topPosList))+"\n")
                 for i in range(0,len(topPosList)):
                     infoIon.write(str(topPosList[i])+"\n")
+                TargetInner = sorted(list(set(topPosList).difference(cavityList)))
+#topPosList
             else:
-                infoIon.write(str(topNegative)+"\n")
+                infoIon.write(str(len(topNegList))+"\n")
                 for i in range(0,len(topNegList)):
                     infoIon.write(str(topNegList[i])+"\n")
+                TargetInner = sorted(list(set(topNegList).difference(cavityList)))
+#topNegList
 #outer
             infoIon.write(str(TotalBottom)+"\n")
             if TotalBottom > 0:
-                infoIon.write(str(bottomPositive)+"\n")
+                infoIon.write(str(len(bottomPosList))+"\n")
                 for i in range(0,len(bottomPosList)):
                     infoIon.write(str(bottomPosList[i])+"\n")
+                TargetOuter = sorted(list(set(bottomPosList).difference(cavityList)))
+#bottomPosList
             else:
-                infoIon.write(str(bottomNegative)+"\n")
+                infoIon.write(str(len(bottomNegList))+"\n")
                 for i in range(0,len(bottomNegList)):
                     infoIon.write(str(bottomNegList[i])+"\n")
+                TargetOuter = sorted(list(set(bottomNegList).difference(cavityList)))
+
+                globals().update({"TargetInner" : TargetInner})
+                globals().update({"TargetOuter" : TargetOuter})
+
+#bottomNegList
             infoIon.write("EOF")
 
             outIon = "outputPutIon."+pqrARM[:-4]
@@ -955,8 +974,7 @@ def addCounterIons(pdbARM):
 #This function calculates the chromophore cavity using fpocket
 ##################################################
 def fpocket():
-
-    question = yes_no('\n <-> Do you want to calculate the chromophore cavity? ')
+    question = True
     if question == True:
         os.system('fpocket -f '+pdbARM)
         print "\n The folder", pdbARM[:-4]+"_out", "containing the pockets has been generated"
@@ -969,12 +987,13 @@ def fpocket():
         pocketFile= pocketFile.split("\n")[0] 
 
         with open(pocketFile) as cavityFile:
-            listcavity = [counterion_ID, linker_aa_ID]
+            listcavity = [counterion_ID, linker_aa_ID, second_counterion_ID]
             for line in cavityFile:
                 if "ATOM" in line.split()[0]:
                     listcavity.append(line.split()[5])                    
                     cavityList0 = list(set(listcavity))
                     cavityList = sorted(cavityList0, key = int)
+                    globals().update({"cavityList" : cavityList})
 
         with open("cavity", "w") as cavity:
             for i in range(0, len(cavityList)):
@@ -1060,16 +1079,28 @@ def wT_analysis():
 #pyMoL Figures generator
 ##################################################
 def pyMoLFig():
+    TargetInner_pymol = '+'.join(TargetInner)
+    TargetOuter_pymol = '+'.join(TargetOuter)
+    cavity_pymol = '+'.join(cavityList)
+
     pyMoLScript = pdbARM[:-4]+".pml"
     with open(pyMoLScript, "w") as pyMoLScript:
         pyMoLScript.writelines(["from pymol import cmd,stored \n",
                                 "bg_color white \n",
                                 "load "+pdbARM+" \n",
-                                "set auto_zoom, off \n",
+                                "set auto_zoom, off \n"
+                                "hide everything \n",
                                 "hide cartoon, all \n",
                                 "hide spheres, all \n",
                                 "hide nb_spheres, all \n",
                                 "hide sticks, all \n",
+                                "#Cavity fpocket \n",
+                                "sele resi "+cavity_pymol+" \n",
+                                "create Cavity, sele \n",
+                                "show lines, Cavity \n",
+                                "show surface, Cavity \n",
+                                "set transparency, 0.65, Cavity \n",
+                                "color red, Cavity \n",
                                 "# Chromophore \n",
                                 "select resn "+chromophoreName+" \n",
                                 "create CHROMOPHORE, sele \n",
@@ -1085,6 +1116,8 @@ def pyMoLFig():
                                 "create mainCounter, sele \n",
                                 "show sticks, mainCounter \n",
                                 "color lightblue, mainCounter \n",
+                                "hide surface, linkerAA \n",
+                                "hide surface, mainCounter \n"
                                 "#CL \n",
                                 "select resn CL \n",
                                 "create CL, sele \n",
@@ -1095,11 +1128,20 @@ def pyMoLFig():
                                 "create NA, sele \n",
                                 "show spheres, NA \n",
                                 "color blue, NA \n",
+                                "#Target residues \n",
+                                "sele resi "+TargetInner_pymol+" \n",
+                                "create TargetInner, sele \n",
+                                "show lines, TargetInner \n",
+                                "color gray, TargetInner \n",
+                                "sele resi "+TargetOuter_pymol+" \n",
+                                "create TargetOuter, sele \n",
+                                "show lines, TargetOuter \n",
+                                "color gray, TargetOuter \n",
                                 "#Chain \n",
                                 "select resn HOH \n",
                                 "create WaterHOH, sele \n",
                                 "show nb_spheres, WaterHOH \n"
-                                "select all and not CHROMOPHORE and not CL and not NA and not WaterHOH and not mainCounter and not linkerAA \n",
+                                "select all and not CHROMOPHORE and not CL and not NA and not WaterHOH and not mainCounter and not linkerAA and not Cavity and not TargetInner and not TargetOuter and not resn HOH \n",
                                 "create mainChain, sele \n",
                                 "show cartoon, mainChain \n"
                                 "color gray, mainChain \n"
@@ -1158,12 +1200,12 @@ propKa()
 Step('8. Change the ionization state of selected amino acids', '')
 protonation(pdbARM)
 
-Step('9. Calculation of the number of counterions (Cl- and Na+) needed to neutralize the system', '')
-numberCounterions(pdbARM)
-pyMoLFig()
-
 Step('11. Definiton of the '+chromophoreName+' chromophore cavity using fpocket','\n'+ fpocketCite)
 fpocket()
+
+
+Step('9. Calculation of the number of counterions (Cl- and Na+) needed to neutralize the system', '')
+numberCounterions(pdbARM)
 pyMoLFig()
 os.chdir("../")
 
